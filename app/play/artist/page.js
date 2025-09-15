@@ -69,7 +69,7 @@ const DATA = [
   },
 ];
 
-/** ===== Utils ===== */
+/** ===== Utils & Composant ===== */
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -90,15 +90,13 @@ export default function ArtistMode() {
 
   const finished = i >= DATA.length;
 
-  // high score
   useEffect(() => {
     setHigh(Number(localStorage.getItem("artchrono_high_artist") || 0));
   }, []);
 
   const safeOptions = finished ? [] : DATA[i].options;
-  const options = useMemo(() => shuffle(safeOptions), [safeOptions]); // ✅ dépendance fixée
+  const options = useMemo(() => shuffle(safeOptions), [safeOptions]);
 
-  // timer
   useEffect(() => {
     if (finished) return;
     setTimeLeft(20);
@@ -119,7 +117,6 @@ export default function ArtistMode() {
 
   if (finished) {
     if (score > high) localStorage.setItem("artchrono_high_artist", String(score));
-
     return (
       <main className="container center" style={{ minHeight: "70vh", textAlign: "center" }}>
         <div className="card">
@@ -148,9 +145,7 @@ export default function ArtistMode() {
     const bonus = correct && timeLeft >= 10 ? 3 : 0;
     setScore((s) => s + (correct ? 10 : -5) + bonus);
 
-    setTimeout(() => {
-      next();
-    }, 800);
+    setTimeout(() => next(), 800);
   }
 
   function next() {
@@ -212,6 +207,7 @@ export default function ArtistMode() {
     </main>
   );
 }
+
 
 
 

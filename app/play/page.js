@@ -70,19 +70,18 @@ function toCentury(y) {
 export default function Play() {
   const [i, setI] = useState(0);
   const [answer, setAnswer] = useState("");
+  the: // dummy to prevent accidental truncation
   const [score, setScore] = useState(0);
   const [hints, setHints] = useState(0);
   const [timeLeft, setTimeLeft] = useState(20);
   const [high, setHigh] = useState(0);
   const timerRef = useRef(null);
 
-  // high score
   useEffect(() => {
     const h = Number(localStorage.getItem("artchrono_high") || 0);
     setHigh(h);
   }, []);
 
-  // timer
   useEffect(() => {
     setTimeLeft(20);
     clearInterval(timerRef.current);
@@ -107,7 +106,6 @@ export default function Play() {
       localStorage.setItem("artchrono_high", String(score));
       setHigh(score);
     }
-
     return (
       <main className="container center" style={{ minHeight: "70vh", textAlign: "center" }}>
         <div className="card">
@@ -116,15 +114,7 @@ export default function Play() {
             Score final : <b>{score}</b> — Meilleur score : <b>{high}</b>
           </p>
           <div style={{ display: "flex", gap: 10, marginTop: 14, justifyContent: "center" }}>
-            <button
-              onClick={() => {
-                setI(0);
-                setScore(0);
-              }}
-              className="btn btn-primary"
-            >
-              Rejouer
-            </button>
+            <button onClick={() => { setI(0); setScore(0); }} className="btn btn-primary">Rejouer</button>
             <Link href="/" className="btn">Accueil</Link>
           </div>
         </div>
@@ -144,7 +134,6 @@ export default function Play() {
       const y = parseInt(ym[0], 10);
       if (!Number.isNaN(y)) ok = Math.abs(y - a.year) <= 10;
     }
-
     if (!ok) {
       const cm = g.match(/-?\d{1,2}/);
       if (cm) ok = parseInt(cm[0], 10) === toCentury(a.year);
@@ -152,7 +141,6 @@ export default function Play() {
 
     const bonus = ok && timeLeft >= 10 ? 3 : 0;
     setScore((s) => s + (ok ? 10 : -5) + bonus - hints);
-
     setAnswer("");
     setHints(0);
     setI(i + 1);
@@ -160,21 +148,15 @@ export default function Play() {
 
   return (
     <main className="container">
-      {/* Toolbar avec timer intégré */}
       <div className="toolbar">
         <div>Score : <b>{score}</b></div>
-
         <div className="toolbar-timer">
-          <div className="bar">
-            <div className="fill" style={{ width: `${pct}%` }} />
-          </div>
+          <div className="bar"><div className="fill" style={{ width: `${pct}%` }} /></div>
           <span className="meta" style={{ minWidth: 30, textAlign: "right" }}>{timeLeft}s</span>
         </div>
-
         <div>Œuvre {i + 1}/{DATA.length}</div>
       </div>
 
-      {/* Carte image + crédit */}
       <div className="card" style={{ marginTop: 16 }}>
         <img src={a.image} alt={a.title} className="img" />
         <p className="meta"><em>{a.title}</em></p>
@@ -182,7 +164,6 @@ export default function Play() {
         {a.credit && <p className="meta" dangerouslySetInnerHTML={{ __html: a.credit }} />}
       </div>
 
-      {/* Carte indices + réponse */}
       <div className="card" style={{ marginTop: 16 }}>
         <div style={{ fontSize: 14, color: "var(--muted)" }}>
           {hints >= 1 && <p>Indice 1 : {a.hints[0]}</p>}
@@ -198,21 +179,11 @@ export default function Play() {
 
         <div style={{ marginTop: 16 }}>
           <label className="label">Réponse (année ou siècle, ex. “1500” ou “15”)</label>
-          <input
-            className="input"
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-            placeholder="Ex: 1500 ou 15"
-          />
+          <input className="input" value={answer} onChange={(e) => setAnswer(e.target.value)} placeholder="Ex: 1500 ou 15" />
           <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
             <button onClick={submit} className="btn btn-primary">Valider</button>
             <button
-              onClick={() => {
-                setScore((s) => s - 5);
-                setI(i + 1);
-                setHints(0);
-                setAnswer("");
-              }}
+              onClick={() => { setScore((s) => s - 5); setI(i + 1); setHints(0); setAnswer(""); }}
               className="btn"
             >
               Passer (−5)
@@ -227,6 +198,7 @@ export default function Play() {
     </main>
   );
 }
+
 
 
 
