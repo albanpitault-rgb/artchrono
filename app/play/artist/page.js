@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 /** ===== Données ===== */
@@ -95,7 +96,7 @@ export default function ArtistMode() {
   }, []);
 
   const safeOptions = finished ? [] : DATA[i].options;
-  const options = useMemo(() => shuffle(safeOptions), [i]);
+  const options = useMemo(() => shuffle(safeOptions), [safeOptions]); // ✅ dépendance fixée
 
   // timer
   useEffect(() => {
@@ -128,7 +129,7 @@ export default function ArtistMode() {
           </p>
           <div style={{ display: "flex", gap: 10, marginTop: 14, justifyContent: "center" }}>
             <button onClick={() => { setI(0); setScore(0); }} className="btn btn-primary">Rejouer</button>
-            <a href="/" className="btn">Accueil</a>
+            <Link href="/" className="btn">Accueil</Link>
           </div>
         </div>
       </main>
@@ -204,12 +205,13 @@ export default function ArtistMode() {
           })}
         </div>
         <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
-          <a href="/play" className="btn">← Mode Date</a>
-          <a href="/" className="btn">Accueil</a>
+          <Link href="/play" className="btn">← Devine la Date</Link>
+          <Link href="/" className="btn">Accueil</Link>
         </div>
       </div>
     </main>
   );
 }
+
 
 

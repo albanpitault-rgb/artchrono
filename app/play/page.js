@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 /** ===== Données ===== */
@@ -124,7 +125,7 @@ export default function Play() {
             >
               Rejouer
             </button>
-            <a href="/" className="btn">Accueil</a>
+            <Link href="/" className="btn">Accueil</Link>
           </div>
         </div>
       </main>
@@ -217,11 +218,16 @@ export default function Play() {
               Passer (−5)
             </button>
           </div>
+          <div style={{ display: "flex", gap: 10, marginTop: 12 }}>
+            <Link href="/play/artist" className="btn">← Devine l’Artiste</Link>
+            <Link href="/" className="btn">Accueil</Link>
+          </div>
         </div>
       </div>
     </main>
   );
 }
+
 
 
 
